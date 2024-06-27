@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Geração de Cupom de Desconto (Aprova)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/4.4.2/react-transition-group.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .fade-enter {
+            opacity: 0;
+        }
+        .fade-enter-active {
+            opacity: 1;
+            transition: opacity 300ms ease-in;
+        }
+        .fade-exit {
+            opacity: 1;
+        }
+        .fade-exit-active {
+            opacity: 0;
+            transition: opacity 300ms ease-in;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        const { CSSTransition, SwitchTransition } = ReactTransitionGroup;
+
+        const TutorialStep = ({ title, content, image }) => (
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-bold mb-4">{title}</h3>
+                <div class="mb-4" dangerouslySetInnerHTML={{__html: content}}></div>
+                {image && <img src={image} alt={title} class="max-w-full h-auto rounded-lg shadow-sm"/>}
+            </div>
+        );
+
+        const Tutorial = () => {
+            const [currentStep, setCurrentStep] = useState(0);
+            const [quickView, setQuickView] = useState(false);
+
+            const steps = [
+                {
+                    title: "Passo 1: Acessar o Link e Realizar Login",
+                    content: `
+                        <p>🌐 Acesse o link: <a href="http://logistica.iesde.com.br/geracartao/configura" target="_blank" class="text-blue-600 hover:underline">logistica.iesde.com.br/geracartao/configura</a></p>
+                        <p>👤 Realize o login:</p>
+                        <ul class="list-disc list-inside">
+                            <li>Selecione a regional correta (IESDE/PR)</li>
+                            <li>Insira suas credenciais</li>
+                            <li>Clique em Entrar</li>
+                        </ul>
+                    `,
+                    image: "/api/placeholder/400/300"
+                },
+                {
+                    title: "Passo 2: Navegar para Geração de Cartão Desconto",
+                    content: `
+                        <p>🖱️ Clique em "Gerar Acesso"</p>
+                        <p>🎫 Selecione "Cartão Desconto"</p>
+                    `,
+                    image: "/api/placeholder/400/200"
+                },
+                {
+                    title: "Passo 3: Gerar Novos Cupons de Desconto",
+                    content: `
+                        <p>➕ Clique em "Gerar Novos"</p>
+                    `,
+                    image: null
+                },
+                {
+                    title: "Passo 4: Configurar o Cupom de Desconto",
+                    content: `
+                        <ul class="list-disc list-inside">
+                            <li>🔢 Insira o ID para o cupom de desconto: <strong>37021</strong></li>
+                            <li>🔢 Insira a quantidade de cupons (geralmente 1)</li>
+                            <li>💲 Inclua o valor do desconto (% ou R$)</li>
+                            <li>🧑‍💼 Selecione o vendedor responsável</li>
+                        </ul>
+                    `,
+                    image: "/api/placeholder/400/300"
+                },
+                {
+                    title: "Passo 5: Gerar o Cartão",
+                    content: `
+                        <p>🟢 Clique em "Gerar Cartão"</p>
+                    `,
+                    image: null
+                },
+                {
+                    title: "Passo 6: Salvar ou Abrir o Arquivo Excel",
+                    content: `
+                        <p>📂 Um arquivo Excel (xls) será gerado automaticamente:</p>
+                        <ul class="list-disc list-inside">
+                            <li>Salve ou abra o arquivo</li>
+                            <li>O código do cupom estará no campo <strong>Senha</strong> do Excel</li>
+                        </ul>
+                    `,
+                    image: "/api/placeholder/400/150"
+                }
+            ];
+
+            const toggleQuickView = () => {
+                setQuickView(!quickView);
+                if (!quickView) {
+                    setCurrentStep(0);
+                }
+            };
+
+            return (
+                <div class="container mx-auto px-4 py-8">
+                    <h1 class="text-3xl font-bold mb-6">Tutorial: Geração de Cupom de Desconto (Aprova)</h1>
+                    {!quickView && (
+                        <div class="flex mb-6">
+                            <button 
+                                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                                class="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                                disabled={currentStep === 0}
+                            >
+                                Anterior
+                            </button>
+                            <button 
+                                onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
+                                class="bg-blue-500 text-white px-4 py-2 rounded"
+                                disabled={currentStep === steps.length - 1}
+                            >
+                                Próximo
+                            </button>
+                        </div>
+                    )}
+                    <SwitchTransition>
+                        <CSSTransition
+                            key={quickView ? 'quick' : currentStep}
+                            addEndListener={(node, done) => node.addEventListener("transitionend", done, false)}
+                            classNames="fade"
+                        >
+                            <div>
+                                {quickView ? (
+                                    steps.map((step, index) => (
+                                        <TutorialStep key={index} {...step} />
+                                    ))
+                                ) : (
+                                    <TutorialStep {...steps[currentStep]} />
+                                )}
+                            </div>
+                        </CSSTransition>
+                    </SwitchTransition>
+                    {!quickView && (
+                        <div class="mt-6">
+                            <p>Progresso: {currentStep + 1} de {steps.length}</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style={{width: `${((currentStep + 1) / steps.length) * 100}%`}}></div>
+                            </div>
+                        </div>
+                    )}
+                    <button 
+                        onClick={toggleQuickView}
+                        class="mt-6 bg-green-500 text-white px-4 py-2 rounded"
+                    >
+                        {quickView ? "Voltar ao modo passo a passo" : "Visualização rápida"}
+                    </button>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Tutorial />, document.getElementById('root'));
+    </script>
+</body>
+</html>
