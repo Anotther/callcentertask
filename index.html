@@ -33,11 +33,12 @@
         const { useState } = React;
         const { CSSTransition, SwitchTransition } = ReactTransitionGroup;
 
-        const TutorialStep = ({ title, content, image }) => (
+        const TutorialStep = ({ title, content, image, image2 }) => (
             <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                 <h3 class="text-xl font-bold mb-4">{title}</h3>
                 <div class="mb-4" dangerouslySetInnerHTML={{__html: content}}></div>
-                {image && <img src={image} alt={title} class="max-w-full h-auto rounded-lg shadow-sm"/>}
+                {image && <img src={image} alt={title} class="max-w-full h-auto rounded-lg shadow-sm mb-4"/>}
+                {image2 && <img src={image2} alt={title} class="max-w-full h-auto rounded-lg shadow-sm"/>}
             </div>
         );
 
@@ -75,20 +76,18 @@
                     image: null
                 },
                 {
-    title: "Passo 4: Configurar o Cupom de Desconto",
-    content: `
-        <ul class="list-disc list-inside">
-            <li>🔢 Insira o ID para o cupom de desconto: <strong>37021</strong></li>
-            <li>🔢 Insira a quantidade de cupons (geralmente 1)</li>
-            <li>💲 Inclua o valor do desconto (% ou R$)</li>
-            <li>🧑‍💼 Selecione o vendedor responsável</li>
-        </ul>
-    `,
-    images: [
-        "Imagens/codigo_cupom.png",
-        "Imagens/configuracao_cupom.png"
-    ]
-},
+                    title: "Passo 4: Configurar o Cupom de Desconto",
+                    content: `
+                        <ul class="list-disc list-inside">
+                            <li>🔢 Insira o ID para o cupom de desconto: <strong>37021</strong></li>
+                            <li>🔢 Insira a quantidade de cupons (geralmente 1)</li>
+                            <li>💲 Inclua o valor do desconto (% ou R$)</li>
+                            <li>🧑‍💼 Selecione o vendedor responsável</li>
+                        </ul>
+                    `,
+                    image: "Imagens/codigo_cupom.png",
+                    image2: "Imagens/configuracao_cupom.png"
+                },
                 {
                     title: "Passo 5: Gerar o Cartão",
                     content: `
