@@ -33,12 +33,10 @@
         const { useState } = React;
         const { CSSTransition, SwitchTransition } = ReactTransitionGroup;
 
-        const TutorialStep = ({ title, content, image, image2 }) => (
+        const TutorialStep = ({ title, content }) => (
             <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                 <h3 class="text-xl font-bold mb-4">{title}</h3>
                 <div class="mb-4" dangerouslySetInnerHTML={{__html: content}}></div>
-                {image && <img src={image} alt={title} class="max-w-full h-auto rounded-lg shadow-sm mb-4"/>}
-                {image2 && <img src={image2} alt={title} class="max-w-full h-auto rounded-lg shadow-sm"/>}
             </div>
         );
 
@@ -57,23 +55,22 @@
                             <li>Insira suas credenciais</li>
                             <li>Clique em Entrar</li>
                         </ul>
-                    `,
-                    image: "Imagens/tela_de_login_logistica.png"
+                        <img src="Imagens/tela_de_login_logistica.png" alt="Tela de Login" class="max-w-full h-auto rounded-lg shadow-sm mt-4"/>
+                    `
                 },
                 {
                     title: "Passo 2: Navegar para Geração de Cartão Desconto",
                     content: `
                         <p>🖱️ Clique em "Gerar Acesso"</p>
                         <p>🎫 Selecione "Cartão Desconto"</p>
-                    `,
-                    image: "Imagens/painel_geracao_de_acessos.png"
+                        <img src="Imagens/painel_geracao_de_acessos.png" alt="Painel de Geração de Acessos" class="max-w-full h-auto rounded-lg shadow-sm mt-4"/>
+                    `
                 },
                 {
                     title: "Passo 3: Gerar Novos Cupons de Desconto",
                     content: `
                         <p>➕ Clique em "Gerar Novos"</p>
-                    `,
-                    image: null
+                    `
                 },
                 {
                     title: "Passo 4: Configurar o Cupom de Desconto",
@@ -81,19 +78,20 @@
                         <ul class="list-disc list-inside">
                             <li>🔢 Insira o ID para o cupom de desconto: <strong>37021</strong></li>
                             <li>🔢 Insira a quantidade de cupons (geralmente 1)</li>
+                        </ul>
+                        <img src="Imagens/codigo_cupom.png" alt="Código do Cupom" class="max-w-full h-auto rounded-lg shadow-sm my-4"/>
+                        <ul class="list-disc list-inside">
                             <li>💲 Inclua o valor do desconto (% ou R$)</li>
                             <li>🧑‍💼 Selecione o vendedor responsável</li>
                         </ul>
-                    `,
-                    image: "Imagens/codigo_cupom.png",
-                    image2: "Imagens/configuracao_cupom.png"
+                        <img src="Imagens/configuracao_cupom.png" alt="Configuração do Cupom" class="max-w-full h-auto rounded-lg shadow-sm mt-4"/>
+                    `
                 },
                 {
                     title: "Passo 5: Gerar o Cartão",
                     content: `
                         <p>🟢 Clique em "Gerar Cartão"</p>
-                    `,
-                    image: null
+                    `
                 },
                 {
                     title: "Passo 6: Salvar ou Abrir o Arquivo Excel",
@@ -103,8 +101,8 @@
                             <li>Salve ou abra o arquivo</li>
                             <li>O código do cupom estará no campo <strong>Senha</strong> do Excel</li>
                         </ul>
-                    `,
-                    image: "Imagens/cupom.jpg"
+                        <img src="Imagens/cupom.jpg" alt="Cupom Gerado" class="max-w-full h-auto rounded-lg shadow-sm mt-4"/>
+                    `
                 }
             ];
 
